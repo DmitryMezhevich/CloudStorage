@@ -3,7 +3,7 @@
 <p align="center">
 <img src="https://i.postimg.cc/HjGYVdFn/cloud-storage-removebg-preview.png" width="40%"></p>
 
-[![](https://img.shields.io/badge/Switch%20Language-EN-green)](https://github.com/DmitryMezhevich/UploadFiles/blob/main/README.md)
+[![](https://img.shields.io/badge/Switch%20Language-EN-green)](https://github.com/DmitryMezhevich/CloudStorage/blob/main/README.md)
 
 ## Описание
 
