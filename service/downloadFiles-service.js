@@ -2,7 +2,7 @@ const formidableHelper = require('../helpers/formidable-helper')
 const mutexServer = require('./mutex-service')
 const ServerErrors = require('../exceptions/server-errors')
 
-// Объект для загрузки файла со fornt
+// Object for uploading a file with fornt
 class DownloadFiles {
     async download(req, res, next) {
         const orderID = req.paramsPath.orderID
