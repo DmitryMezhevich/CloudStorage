@@ -1,63 +1,63 @@
-const path = require('path')
-const ServerError = require('../exceptions/server-errors')
-const mutexService = require('../service/mutex-service')
-const removeFilesHelper = require('../helpers/removeFiles-helper')
+const path = require('path');
+const ServerError = require('../exceptions/server-errors');
+const mutexService = require('../service/mutex-service');
+const removeFilesHelper = require('../helpers/removeFiles-helper');
 
 class RemoveFiles {
     _path(orderId, fileID) {
-        return path.join('localDatabase/files/', orderId, fileID ? fileID : '')
+        return path.join('localDatabase/files/', orderId, fileID ? fileID : '');
     }
 
     async removeFile(req, res, next) {
-        const orderID = req.paramsPath.orderID
-        const fileID = req.paramsPath.fileID
+        const orderID = req.paramsPath.orderID;
+        const fileID = req.paramsPath.fileID;
 
         try {
-            await mutexService.addWriter(orderID)
+            await mutexService.addWriter(orderID);
 
             removeFilesHelper
                 .removeFile(this._path(orderID, fileID))
                 .then(() => {
                     res.json({
                         descripthin: `File: '${fileID}' has been remove!`,
-                    })
+                    });
                 })
                 .catch(() => {
-                    return next(ServerError.ErrorRemoveFile(fileID))
+                    return next(ServerError.ErrorRemoveFile(fileID));
                 })
                 .finally(async () => {
-                    await mutexService.removeOperation(orderID)
-                })
+                    await mutexService.removeOperation(orderID);
+                });
         } catch {
-            return next(ServerError.OrderIsBusy(orderID))
+            return next(ServerError.OrderIsBusy(orderID));
         }
     }
 
     async removeFolder(req, res, next) {
-        const orderID = req.paramsPath.orderID
+        const orderID = req.paramsPath.orderID;
 
         try {
-            await mutexService.addWriter(orderID)
+            await mutexService.addWriter(orderID);
 
-            const path = `localDatabase/files/${orderID}`
+            const path = `localDatabase/files/${orderID}`;
 
             removeFilesHelper
                 .removeFolder(this._path(orderID))
                 .then(() => {
                     res.json({
                         descripthin: `Order: '${orderID}' has been remove!`,
-                    })
+                    });
                 })
                 .catch(() => {
-                    return next(ServerError.ErrorRemoveOrder(orderID))
+                    return next(ServerError.ErrorRemoveOrder(orderID));
                 })
                 .finally(async () => {
-                    await mutexService.removeOperation(orderID)
-                })
+                    await mutexService.removeOperation(orderID);
+                });
         } catch {
-            return next(ServerError.OrderIsBusy(orderID))
+            return next(ServerError.OrderIsBusy(orderID));
         }
     }
 }
 
-module.exports = new RemoveFiles()
+module.exports = new RemoveFiles();

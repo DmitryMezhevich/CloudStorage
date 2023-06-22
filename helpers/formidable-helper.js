@@ -1,5 +1,5 @@
-const formidable = require('formidable')
-const writerFiles = require('./writerFiles-helper')
+const formidable = require('formidable');
+const writerFiles = require('./writerFiles-helper');
 
 class FormidableDownload {
     _optionsFormidable = {
@@ -7,22 +7,22 @@ class FormidableDownload {
         keepExtensions: true,
         maxFileSize: 4 * 1024 * 1024 * 1024,
         multiples: true,
-    }
+    };
 
     async download(req, orderID, cb) {
-        const form = formidable(this._optionsFormidable)
+        const form = formidable(this._optionsFormidable);
 
         form.parse(req, (err, _, files) => {
             writerFiles
                 .write(err, orderID, files)
                 .then(() => {
-                    return cb()
+                    return cb();
                 })
                 .catch((err) => {
-                    return cb(err)
-                })
-        })
+                    return cb(err);
+                });
+        });
     }
 }
 
-module.exports = new FormidableDownload()
+module.exports = new FormidableDownload();

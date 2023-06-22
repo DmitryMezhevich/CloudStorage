@@ -1,0 +1,11 @@
+{
+    "env": {
+        "ecmaVersion": "latest",
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "script"
+    },
+    "rules": {}
+}
