@@ -4,9 +4,9 @@ const ServerErrors = require('../exceptions/server-errors');
 class UserController {
     async getAllFilesList(req, res, next) {
         try {
-            const list = await getFilesHelper.readDirectoryRecursive(
-                'localDatabase/files'
-            );
+            const list = await getFilesHelper.readFiles('localDatabase/files');
+
+            //list = list.filter((item) => item !== null);
 
             if (!list.length) {
                 return res.json({ description: 'The list is empty!' });

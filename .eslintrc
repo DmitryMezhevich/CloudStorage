@@ -1,11 +1,13 @@
 {
     "env": {
-        "ecmaVersion": "latest",
+        "es2022": true,
         "node": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "script"
     },
-    "rules": {}
+    "rules": {
+        "no-console": "warn"
+    }
 }

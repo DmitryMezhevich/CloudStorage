@@ -1,7 +1,7 @@
 const path = require('path');
 const ServerError = require('../exceptions/server-errors');
 const mutexService = require('../service/mutex-service');
-const removeFilesHelper = require('../helpers/removeFiles-helper');
+const removeHelper = require('../helpers/files-helper');
 
 class RemoveFiles {
     _path(orderId, fileID) {
@@ -15,7 +15,7 @@ class RemoveFiles {
         try {
             await mutexService.addWriter(orderID);
 
-            removeFilesHelper
+            removeHelper
                 .removeFile(this._path(orderID, fileID))
                 .then(() => {
                     res.json({
@@ -39,9 +39,7 @@ class RemoveFiles {
         try {
             await mutexService.addWriter(orderID);
 
-            const path = `localDatabase/files/${orderID}`;
-
-            removeFilesHelper
+            removeHelper
                 .removeFolder(this._path(orderID))
                 .then(() => {
                     res.json({

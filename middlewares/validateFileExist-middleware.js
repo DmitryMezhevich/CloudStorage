@@ -8,24 +8,28 @@ class ValidateExit {
     }
 
     async fileExit(req, res, next) {
-        if (
-            !fs.existsSync(
-                this._path(req.paramsPath.orderID, req.paramsPath.fileID)
-            )
-        ) {
-            return next(ServerErrors.FileNotExist(req.paramsPath.fileID));
-        }
+        fs.stat(
+            this._path(req.paramsPath.orderID, req.paramsPath.fileID),
+            (err) => {
+                if (err) {
+                    return next(
+                        ServerErrors.FileNotExist(req.paramsPath.fileID)
+                    );
+                }
 
-        next();
+                next();
+            }
+        );
     }
 
     async folderExit(req, res, next) {
-        console.log(this._path(req.paramsPath.orderID));
-        if (!fs.existsSync(this._path(req.paramsPath.orderID))) {
-            return next(ServerErrors.OrderNotExist(req.paramsPath.orderID));
-        }
+        fs.stat(this._path(req.paramsPath.orderID), (err) => {
+            if (err) {
+                return next(ServerErrors.OrderNotExist(req.paramsPath.orderID));
+            }
 
-        next();
+            next();
+        });
     }
 }
 

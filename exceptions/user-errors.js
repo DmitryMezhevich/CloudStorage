@@ -1,9 +1,9 @@
 class UserErrors extends Error {
-    _httpStatus;
+    httpStatus;
 
     constructor(httpStatus, message) {
         super(message);
-        this._httpStatus = httpStatus;
+        this.httpStatus = httpStatus;
     }
 
     static BadRequestWithQuery(message = 'You must have correct query!') {

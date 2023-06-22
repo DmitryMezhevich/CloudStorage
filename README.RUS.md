@@ -89,7 +89,7 @@ GET localhost:3000/API/listFiles
 -   Загрузка файла(-ов) на сервер при помощи form-data:
 
 ```
-POST localhost:3000/API/downloadFile?orderID
+POST localhost:3000/API/uploadFiles?orderID
 ```
 
 Где orderID - идентификационный номер папки, в которой будут храниться файл(-ы).  
@@ -105,7 +105,7 @@ POST localhost:3000/API/downloadFile?orderID
 -   Скачивание определенного файла:
 
 ```
-GET localhost:3000/API/uploadFiles?orderID=100?fileID=1.png
+GET localhost:3000/API/downloadFile?orderID=100?fileID=1.png
 ```
 
 Где orderID - идентификационный номер папки, в которой находится файл, а fileID - название файла.  

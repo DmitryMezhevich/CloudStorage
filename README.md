@@ -87,7 +87,7 @@ Example of a response from the server in JSON format:
 -   Uploading file(s) to the server using form-data:
 
 ```
-POST localhost:3000/API/downloadFile?orderID
+POST localhost:3000/API/uploadFiles?orderID
 ```
 
 Where orderID is the identification number of the folder where the file(s) will be stored.
@@ -103,7 +103,7 @@ Example response from the server in JSON format:
 -   Downloading a specific file:
 
 ```
-GET localhost:3000/API/uploadFiles?orderID=100?fileID=1.png
+GET localhost:3000/API/downloadFile?orderID=100?fileID=1.png
 ```
 
 Where orderID is the identification number of the folder where the file is located, and fileID is the name of the file.  

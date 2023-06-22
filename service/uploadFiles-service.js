@@ -1,5 +1,5 @@
 const mutexServer = require('./mutex-service');
-const uploadHelper = require('../helpers/upload-helper');
+const uploadHelper = require('../helpers/files-helper');
 const ServerErrors = require('../exceptions/server-errors');
 
 // Object for sending a file by ID to the front-end.

@@ -11,7 +11,7 @@ class ValidateQuery {
     }
 
     async getFile(req, res, next) {
-        if (!req.query.orderID && !req.query.fileID) {
+        if (!req.query.orderID || !req.query.fileID) {
             return next(UserErrors.BadRequestWithQuery());
         }
 
@@ -27,16 +27,16 @@ class ValidateQuery {
     }
 
     async removeFile(req, res, next) {
-        if (!req.query.orderID) {
-            throw UserErrors.BadRequestWithQuery();
+        if (!req.query.orderID || !req.query.fileID) {
+            return next(UserErrors.BadRequestWithQuery());
         }
 
         this._addParams(req, next);
     }
 
     async removeOrder(req, res, next) {
-        if (!req.query.orderID && !req.query.fileID) {
-            throw UserErrors.BadRequestWithQuery();
+        if (!req.query.orderID) {
+            return next(UserErrors.BadRequestWithQuery());
         }
 
         this._addParams(req, next);

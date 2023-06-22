@@ -1,5 +1,5 @@
 const formidable = require('formidable');
-const writerFiles = require('./writerFiles-helper');
+const writeHepler = require('./files-helper');
 
 class FormidableDownload {
     _optionsFormidable = {
@@ -13,7 +13,7 @@ class FormidableDownload {
         const form = formidable(this._optionsFormidable);
 
         form.parse(req, (err, _, files) => {
-            writerFiles
+            writeHepler
                 .write(err, orderID, files)
                 .then(() => {
                     return cb();
