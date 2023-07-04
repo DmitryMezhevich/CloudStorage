@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 class GetFilesList {
-    async _readDirectoryRecursive(directoryPath) {
+    async #readDirectoryRecursive(directoryPath) {
         const files = await fs.readdir(directoryPath);
 
         const filePromises = files.map(async (file) => {
@@ -15,7 +15,7 @@ class GetFilesList {
             const stats = await fs.stat(filePath);
 
             if (stats.isDirectory()) {
-                const children = await this._readDirectoryRecursive(filePath);
+                const children = await this.#readDirectoryRecursive(filePath);
 
                 return {
                     orderID: file,
@@ -33,7 +33,7 @@ class GetFilesList {
     }
 
     async readFiles(directoryPath) {
-        const result = await this._readDirectoryRecursive(directoryPath);
+        const result = await this.#readDirectoryRecursive(directoryPath);
         return result.filter((item) => item !== null);
     }
 }

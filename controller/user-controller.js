@@ -6,8 +6,6 @@ class UserController {
         try {
             const list = await getFilesHelper.readFiles('localDatabase/files');
 
-            //list = list.filter((item) => item !== null);
-
             if (!list.length) {
                 return res.json({ description: 'The list is empty!' });
             }

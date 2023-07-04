@@ -6,17 +6,12 @@ class ServerErrors extends Error {
         this.httpStatus = httpStatus;
     }
 
-    static FileNotExist(nameFile) {
+    static FileNotExist(nameOrder, nameFile) {
         return new ServerErrors(
             undefined,
-            `File: '${nameFile}' does not exist!`
-        );
-    }
-
-    static OrderNotExist(orderID) {
-        return new ServerErrors(
-            undefined,
-            `Order: '${orderID}' does not exist!`
+            `Order or file: '${
+                nameFile ? nameFile : nameOrder
+            }' does not exist!`
         );
     }
 
@@ -27,10 +22,10 @@ class ServerErrors extends Error {
         );
     }
 
-    static OrderIsBusy(orderID) {
+    static OrderIsBusy(nameOrder) {
         return new ServerErrors(
             undefined,
-            `Order: '${orderID}' is temporarily blocked! Repeat the request later.`
+            `Order: '${nameOrder}' is temporarily blocked! Repeat the request later.`
         );
     }
 
@@ -56,10 +51,10 @@ class ServerErrors extends Error {
         );
     }
 
-    static ErrorRemoveOrder(orderID) {
+    static ErrorRemoveOrder(nameOrder) {
         return new ServerErrors(
             undefined,
-            `Order: '${orderID}' cannot be remove!`
+            `Order: '${nameOrder}' cannot be remove!`
         );
     }
 }

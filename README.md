@@ -64,7 +64,7 @@ Note: If you want to use the demo version, make sure to replace "localhost:3000/
 -   Get a list of files in JSON format:
 
 ```
-GET localhost:3000/API/listFiles
+GET localhost:3000/files-management/orders
 ```
 
 Example of a response from the server in JSON format:
@@ -87,7 +87,7 @@ Example of a response from the server in JSON format:
 -   Uploading file(s) to the server using form-data:
 
 ```
-POST localhost:3000/API/uploadFiles?orderID
+POST localhost:3000/files-management/orders/{orderID}
 ```
 
 Where orderID is the identification number of the folder where the file(s) will be stored.
@@ -103,7 +103,7 @@ Example response from the server in JSON format:
 -   Downloading a specific file:
 
 ```
-GET localhost:3000/API/downloadFile?orderID=100?fileID=1.png
+GET localhost:3000/files-management/orders/{orderID}/files/{fileID}
 ```
 
 Where orderID is the identification number of the folder where the file is located, and fileID is the name of the file.  
@@ -113,11 +113,11 @@ The response will be the downloaded file.
 -   Deleting a specific file or an entire folder:
 
 ```
-DELETE localhost:3000/API/deleteFile?orderID=100?fileID=1.png
+DELETE localhost:3000/files-management/orders/{orderID}/files/{fileID}
 ```
 
 ```
-DELETE localhost:3000/API/deleteOrder?orderID=100
+DELETE localhost:3000/files-management/orders/{orderID}
 ```
 
 Where orderID is the identification number of the folder where the file is located, and fileID is the name of the file.

@@ -1,19 +1,19 @@
 module.exports = class Operation {
-    _countOfReader;
+    #countOfReader;
 
     constructor() {
-        this._countOfReader = 0;
+        this.#countOfReader = 0;
     }
 
     isReading() {
-        return this._countOfReader !== 0;
+        return this.#countOfReader !== 0;
     }
 
     addReader() {
-        this._countOfReader += 1;
+        this.#countOfReader += 1;
     }
 
     removeReader() {
-        this._countOfReader = Math.max(0, (this._countOfReader -= 1));
+        this.#countOfReader = Math.max(0, (this.#countOfReader -= 1));
     }
 };

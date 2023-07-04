@@ -1,88 +1,68 @@
-const fs = require('fs-extra');
+const path = require('path');
+const fs = require('fs/promises');
+
+const ServerErrors = require('../exceptions/server-errors');
 
 class FilesHelper {
-    _rename(listFiles, orderID) {
-        const newPath = `${__dirname}/../localDatabase/files/${orderID}`;
-
-        fs.stat(newPath, async (err) => {
-            if (err) {
-                await fs.mkdir(newPath);
-            }
-
-            Object.entries(listFiles).forEach(async ([, value]) => {
-                await fs.rename(
-                    value.filepath,
-                    newPath + '/' + value.originalFilename
-                );
-            });
-        });
-    }
-
-    _removeBuffer(listFiles) {
-        Object.entries(listFiles).forEach(async ([, value]) => {
-            await fs.unlink(value.filepath);
-        });
-    }
-
-    write(err, orderID, listFiles) {
-        return new Promise((resolve, reject) => {
-            if (err) {
-                this._removeBuffer(listFiles);
-                return reject(err);
-            }
-
-            this._rename(listFiles, orderID);
-            resolve();
-        });
-    }
-
-    upload(req, res, cb) {
-        const orderID = req.paramsPath.orderID;
-        const fileID = req.paramsPath.fileID;
-
-        const readStream = fs.createReadStream(
-            `${__dirname}/../localDatabase/files/${orderID}/${fileID}`
+    #path(orderID, fileID) {
+        return path.join(
+            __dirname,
+            '..',
+            'localDatabase/files/',
+            orderID,
+            fileID ? fileID : ''
         );
+    }
 
-        readStream.on('open', () => {
-            res.setHeader(
-                'content-disposition',
-                `attachment; filename=${encodeURIComponent(fileID)}`
+    async #rename(listFiles, orderID) {
+        const newPath = this.#path(orderID);
+
+        await fs.mkdir(newPath, { recursive: true });
+
+        for (const [, value] of Object.entries(listFiles)) {
+            await fs.rename(
+                value.filepath,
+                newPath + '/' + value.originalFilename
             );
-            readStream.pipe(res);
-        });
-
-        readStream.once('error', (err) => {
-            return cb(err);
-        });
-
-        res.on('close', async () => {
-            return cb();
-        });
+        }
     }
 
-    removeFile(path) {
-        return new Promise((resolve, reject) => {
-            fs.unlink(path, (err) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve();
-            });
-        });
+    async #removeBuffer(listFiles) {
+        for (const [, value] of Object.entries(listFiles)) {
+            await fs.unlink(value.filepath);
+        }
     }
 
-    removeFolder(path) {
-        return new Promise((resolve, reject) => {
-            fs.remove(path, (err) => {
-                if (err) {
-                    return reject(err);
-                }
+    async write(err, orderID, listFiles) {
+        try {
+            if (err) {
+                await this.#removeBuffer(listFiles);
+                throw err;
+            }
 
-                resolve();
+            await this.#rename(listFiles, orderID);
+        } catch {
+            throw err;
+        }
+    }
+
+    async removeFile(orderID, fileID) {
+        try {
+            await fs.unlink(this.#path(orderID, fileID));
+        } catch {
+            throw ServerErrors.ErrorRemoveFile(fileID);
+        }
+    }
+
+    async removeFolder(orderID) {
+        try {
+            await fs.rm(this.#path(orderID), {
+                recursive: true,
+                force: true,
             });
-        });
+        } catch {
+            throw ServerErrors.ErrorRemoveOrder(orderID);
+        }
     }
 }
 

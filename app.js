@@ -11,7 +11,7 @@ try {
     const app = express();
 
     app.use(express.urlencoded({ extended: true }));
-    app.use('/API', router);
+    app.use('/files-management', router);
     app.use(errorMiddleware);
 
     app.listen(PORT, () => console.log(`Server is started by ${PORT} port!`));
